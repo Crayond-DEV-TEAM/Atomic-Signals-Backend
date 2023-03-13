@@ -50,6 +50,7 @@ const sequelizePlugin: FastifyPluginCallback<SequelizeOptions> = async (
   //   port: DB_PORT,
   //   dialect: DB_DIALECT,
   //   directory: "./src/models",
+  //   skipTables:['_prisma_migrations'],
   //   additional: {
   //     timestamps: false,
   //   },

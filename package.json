@@ -1,5 +1,5 @@
 {
-	"name": "fastify-sequelize",
+	"name": "atomic-signals-backend",
 	"version": "1.0.0",
 	"description": "Boilerplate with includes sequelize auto models",
 	"main": "app.ts",

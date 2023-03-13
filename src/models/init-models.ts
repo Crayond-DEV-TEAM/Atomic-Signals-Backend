@@ -1,9 +1,4 @@
 import type { Sequelize } from "sequelize";
-import { _prisma_migration as __prisma_migration } from "./_prisma_migration";
-import type {
-  _prisma_migrationAttributes,
-  _prisma_migrationCreationAttributes,
-} from "./_prisma_migration";
 import { feedback_reminder as _feedback_reminder } from "./feedback_reminder";
 import type {
   feedback_reminderAttributes,
@@ -86,7 +81,6 @@ import type {
 } from "./workspace";
 
 export {
-  __prisma_migration as _prisma_migration,
   _feedback_reminder as feedback_reminder,
   _feedback_response as feedback_response,
   _feedback_type as feedback_type,
@@ -106,8 +100,6 @@ export {
 };
 
 export type {
-  _prisma_migrationAttributes,
-  _prisma_migrationCreationAttributes,
   feedback_reminderAttributes,
   feedback_reminderCreationAttributes,
   feedback_responseAttributes,
@@ -143,7 +135,6 @@ export type {
 };
 
 export function initModels(sequelize: Sequelize) {
-  const _prisma_migration = __prisma_migration.initModel(sequelize);
   const feedback_reminder = _feedback_reminder.initModel(sequelize);
   const feedback_response = _feedback_response.initModel(sequelize);
   const feedback_type = _feedback_type.initModel(sequelize);
@@ -570,7 +561,6 @@ export function initModels(sequelize: Sequelize) {
   });
 
   return {
-    _prisma_migration: _prisma_migration,
     feedback_reminder: feedback_reminder,
     feedback_response: feedback_response,
     feedback_type: feedback_type,
