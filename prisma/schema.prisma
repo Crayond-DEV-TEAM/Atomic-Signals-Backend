@@ -1,0 +1,292 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model feedback_reminder {
+  id                                                        String         @id @db.Uuid
+  from                                                      String?        @db.Uuid
+  to                                                        String?        @db.Uuid
+  remind_by                                                 DateTime?      @db.Timestamp(6)
+  status                                                    String?        @db.VarChar
+  created_by                                                String?        @db.Uuid
+  updated_by                                                String?        @db.Uuid
+  created_at                                                DateTime?      @db.Timestamp(6)
+  updated_at                                                DateTime?      @db.Timestamp(6)
+  user_profiles_feedback_reminder_created_byTouser_profiles user_profiles? @relation("feedback_reminder_created_byTouser_profiles", fields: [created_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user_profiles_feedback_reminder_fromTouser_profiles       user_profiles? @relation("feedback_reminder_fromTouser_profiles", fields: [from], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user_profiles_feedback_reminder_toTouser_profiles         user_profiles? @relation("feedback_reminder_toTouser_profiles", fields: [to], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user_profiles_feedback_reminder_updated_byTouser_profiles user_profiles? @relation("feedback_reminder_updated_byTouser_profiles", fields: [updated_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  notification                                              notification[]
+}
+
+model feedback_responses {
+  id                                                         String         @id @db.Uuid
+  feedback_id                                                String?        @db.Uuid
+  reason                                                     String?        @db.VarChar
+  description                                                String?        @db.VarChar
+  created_by                                                 String?        @db.Uuid
+  updated_by                                                 String?        @db.Uuid
+  created_at                                                 DateTime?      @db.Timestamp(6)
+  updated_at                                                 DateTime?      @db.Timestamp(6)
+  user_profiles_feedback_responses_created_byTouser_profiles user_profiles? @relation("feedback_responses_created_byTouser_profiles", fields: [created_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  feedbacks                                                  feedbacks?     @relation(fields: [feedback_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user_profiles_feedback_responses_updated_byTouser_profiles user_profiles? @relation("feedback_responses_updated_byTouser_profiles", fields: [updated_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model feedback_types {
+  id                                                     Int            @id
+  label                                                  String?        @db.VarChar
+  created_by                                             String?        @db.Uuid
+  updated_by                                             String?        @db.Uuid
+  created_at                                             DateTime?      @db.Timestamp(6)
+  updated_at                                             DateTime?      @db.Timestamp(6)
+  user_profiles_feedback_types_created_byTouser_profiles user_profiles? @relation("feedback_types_created_byTouser_profiles", fields: [created_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user_profiles_feedback_types_updated_byTouser_profiles user_profiles? @relation("feedback_types_updated_byTouser_profiles", fields: [updated_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  workspaces                                             workspaces[]
+}
+
+model feedbacks {
+  id                                                String               @id @db.Uuid
+  workspace_id                                      String?              @db.Uuid
+  signal                                            String?              @db.Uuid
+  grading                                           String?              @db.Uuid
+  from                                              String?              @db.Uuid
+  to                                                String?              @db.Uuid
+  is_responded                                      Boolean?
+  created_by                                        String?              @db.Uuid
+  updated_by                                        String?              @db.Uuid
+  created_at                                        DateTime?            @db.Timestamp(6)
+  updated_at                                        DateTime?            @db.Timestamp(6)
+  feedback_responses                                feedback_responses[]
+  user_profiles_feedbacks_created_byTouser_profiles user_profiles?       @relation("feedbacks_created_byTouser_profiles", fields: [created_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user_profiles_feedbacks_fromTouser_profiles       user_profiles?       @relation("feedbacks_fromTouser_profiles", fields: [from], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  workspace_grading                                 workspace_grading?   @relation(fields: [grading], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  workspace_signals                                 workspace_signals?   @relation(fields: [signal], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user_profiles_feedbacks_toTouser_profiles         user_profiles?       @relation("feedbacks_toTouser_profiles", fields: [to], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user_profiles_feedbacks_updated_byTouser_profiles user_profiles?       @relation("feedbacks_updated_byTouser_profiles", fields: [updated_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  workspaces                                        workspaces?          @relation(fields: [workspace_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model master_notification_type {
+  id                                                               Int            @id
+  label                                                            String?        @db.VarChar
+  created_by                                                       String?        @db.Uuid
+  updated_by                                                       String?        @db.Uuid
+  created_at                                                       DateTime?      @db.Timestamp(6)
+  updated_at                                                       DateTime?      @db.Timestamp(6)
+  user_profiles_master_notification_type_created_byTouser_profiles user_profiles? @relation("master_notification_type_created_byTouser_profiles", fields: [created_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user_profiles_master_notification_type_updated_byTouser_profiles user_profiles? @relation("master_notification_type_updated_byTouser_profiles", fields: [updated_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model master_roles {
+  id                                                   Int                 @id
+  label                                                String?             @db.VarChar
+  created_by                                           String?             @db.Uuid
+  updated_by                                           String?             @db.Uuid
+  created_at                                           DateTime?           @db.Timestamp(6)
+  updated_at                                           DateTime?           @db.Timestamp(6)
+  user_profiles_master_roles_created_byTouser_profiles user_profiles?      @relation("master_roles_created_byTouser_profiles", fields: [created_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user_profiles_master_roles_updated_byTouser_profiles user_profiles?      @relation("master_roles_updated_byTouser_profiles", fields: [updated_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user_role_mapping                                    user_role_mapping[]
+}
+
+model master_user_statuses {
+  id                                                           Int             @id
+  label                                                        String?         @db.VarChar
+  created_by                                                   String?         @db.Uuid
+  updated_by                                                   String?         @db.Uuid
+  created_at                                                   DateTime?       @db.Timestamp(6)
+  updated_at                                                   DateTime?       @db.Timestamp(6)
+  user_profiles_master_user_statuses_created_byTouser_profiles user_profiles?  @relation("master_user_statuses_created_byTouser_profiles", fields: [created_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user_profiles_master_user_statuses_updated_byTouser_profiles user_profiles?  @relation("master_user_statuses_updated_byTouser_profiles", fields: [updated_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user_profiles_user_profiles_statusTomaster_user_statuses     user_profiles[] @relation("user_profiles_statusTomaster_user_statuses")
+}
+
+model notification {
+  id                                                   String             @id @db.Uuid
+  reminder_id                                          String?            @db.Uuid
+  type                                                 String?            @db.Uuid
+  created_by                                           String?            @db.Uuid
+  updated_by                                           String?            @db.Uuid
+  created_at                                           DateTime?          @db.Timestamp(6)
+  updated_at                                           DateTime?          @db.Timestamp(6)
+  user_profiles_notification_created_byTouser_profiles user_profiles?     @relation("notification_created_byTouser_profiles", fields: [created_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  feedback_reminder                                    feedback_reminder? @relation(fields: [reminder_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user_profiles_notification_updated_byTouser_profiles user_profiles?     @relation("notification_updated_byTouser_profiles", fields: [updated_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model user_profiles {
+  id                                                                          String                     @id @db.Uuid
+  workspace_id                                                                String?                    @db.Uuid
+  user_id                                                                     String?                    @db.VarChar
+  profile_pic                                                                 String?                    @db.VarChar
+  name                                                                        String?                    @db.VarChar
+  status                                                                      Int?
+  created_by                                                                  String?                    @db.Uuid
+  updated_by                                                                  String?                    @db.Uuid
+  created_at                                                                  DateTime?                  @db.Timestamp(6)
+  updated_at                                                                  DateTime?                  @db.Timestamp(6)
+  feedback_reminder_feedback_reminder_created_byTouser_profiles               feedback_reminder[]        @relation("feedback_reminder_created_byTouser_profiles")
+  feedback_reminder_feedback_reminder_fromTouser_profiles                     feedback_reminder[]        @relation("feedback_reminder_fromTouser_profiles")
+  feedback_reminder_feedback_reminder_toTouser_profiles                       feedback_reminder[]        @relation("feedback_reminder_toTouser_profiles")
+  feedback_reminder_feedback_reminder_updated_byTouser_profiles               feedback_reminder[]        @relation("feedback_reminder_updated_byTouser_profiles")
+  feedback_responses_feedback_responses_created_byTouser_profiles             feedback_responses[]       @relation("feedback_responses_created_byTouser_profiles")
+  feedback_responses_feedback_responses_updated_byTouser_profiles             feedback_responses[]       @relation("feedback_responses_updated_byTouser_profiles")
+  feedback_types_feedback_types_created_byTouser_profiles                     feedback_types[]           @relation("feedback_types_created_byTouser_profiles")
+  feedback_types_feedback_types_updated_byTouser_profiles                     feedback_types[]           @relation("feedback_types_updated_byTouser_profiles")
+  feedbacks_feedbacks_created_byTouser_profiles                               feedbacks[]                @relation("feedbacks_created_byTouser_profiles")
+  feedbacks_feedbacks_fromTouser_profiles                                     feedbacks[]                @relation("feedbacks_fromTouser_profiles")
+  feedbacks_feedbacks_toTouser_profiles                                       feedbacks[]                @relation("feedbacks_toTouser_profiles")
+  feedbacks_feedbacks_updated_byTouser_profiles                               feedbacks[]                @relation("feedbacks_updated_byTouser_profiles")
+  master_notification_type_master_notification_type_created_byTouser_profiles master_notification_type[] @relation("master_notification_type_created_byTouser_profiles")
+  master_notification_type_master_notification_type_updated_byTouser_profiles master_notification_type[] @relation("master_notification_type_updated_byTouser_profiles")
+  master_roles_master_roles_created_byTouser_profiles                         master_roles[]             @relation("master_roles_created_byTouser_profiles")
+  master_roles_master_roles_updated_byTouser_profiles                         master_roles[]             @relation("master_roles_updated_byTouser_profiles")
+  master_user_statuses_master_user_statuses_created_byTouser_profiles         master_user_statuses[]     @relation("master_user_statuses_created_byTouser_profiles")
+  master_user_statuses_master_user_statuses_updated_byTouser_profiles         master_user_statuses[]     @relation("master_user_statuses_updated_byTouser_profiles")
+  notification_notification_created_byTouser_profiles                         notification[]             @relation("notification_created_byTouser_profiles")
+  notification_notification_updated_byTouser_profiles                         notification[]             @relation("notification_updated_byTouser_profiles")
+  user_profiles_user_profiles_created_byTouser_profiles                       user_profiles?             @relation("user_profiles_created_byTouser_profiles", fields: [created_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  other_user_profiles_user_profiles_created_byTouser_profiles                 user_profiles[]            @relation("user_profiles_created_byTouser_profiles")
+  master_user_statuses_user_profiles_statusTomaster_user_statuses             master_user_statuses?      @relation("user_profiles_statusTomaster_user_statuses", fields: [status], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user_profiles_user_profiles_updated_byTouser_profiles                       user_profiles?             @relation("user_profiles_updated_byTouser_profiles", fields: [updated_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  other_user_profiles_user_profiles_updated_byTouser_profiles                 user_profiles[]            @relation("user_profiles_updated_byTouser_profiles")
+  workspaces_user_profiles_workspace_idToworkspaces                           workspaces?                @relation("user_profiles_workspace_idToworkspaces", fields: [workspace_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user_role_mapping_user_role_mapping_created_byTouser_profiles               user_role_mapping[]        @relation("user_role_mapping_created_byTouser_profiles")
+  user_role_mapping_user_role_mapping_updated_byTouser_profiles               user_role_mapping[]        @relation("user_role_mapping_updated_byTouser_profiles")
+  user_role_mapping_user_role_mapping_user_profile_idTouser_profiles          user_role_mapping[]        @relation("user_role_mapping_user_profile_idTouser_profiles")
+  user_workspace_access_user_workspace_access_created_byTouser_profiles       user_workspace_access[]    @relation("user_workspace_access_created_byTouser_profiles")
+  user_workspace_access_user_workspace_access_reporting_toTouser_profiles     user_workspace_access[]    @relation("user_workspace_access_reporting_toTouser_profiles")
+  user_workspace_access_user_workspace_access_updated_byTouser_profiles       user_workspace_access[]    @relation("user_workspace_access_updated_byTouser_profiles")
+  workspace_department_workspace_department_created_byTouser_profiles         workspace_department[]     @relation("workspace_department_created_byTouser_profiles")
+  workspace_department_workspace_department_updated_byTouser_profiles         workspace_department[]     @relation("workspace_department_updated_byTouser_profiles")
+  workspace_designation_workspace_designation_created_byTouser_profiles       workspace_designation[]    @relation("workspace_designation_created_byTouser_profiles")
+  workspace_designation_workspace_designation_updated_byTouser_profiles       workspace_designation[]    @relation("workspace_designation_updated_byTouser_profiles")
+  workspace_grading_workspace_grading_created_byTouser_profiles               workspace_grading[]        @relation("workspace_grading_created_byTouser_profiles")
+  workspace_grading_workspace_grading_updated_byTouser_profiles               workspace_grading[]        @relation("workspace_grading_updated_byTouser_profiles")
+  workspace_signals                                                           workspace_signals[]
+  workspaces_workspaces_created_byTouser_profiles                             workspaces[]               @relation("workspaces_created_byTouser_profiles")
+  workspaces_workspaces_updated_byTouser_profiles                             workspaces[]               @relation("workspaces_updated_byTouser_profiles")
+}
+
+model user_role_mapping {
+  id                                                             Int            @id
+  workspace_id                                                   String?        @db.Uuid
+  user_profile_id                                                String?        @db.Uuid
+  role_id                                                        Int?
+  created_by                                                     String?        @db.Uuid
+  updated_by                                                     String?        @db.Uuid
+  created_at                                                     DateTime?      @db.Timestamp(6)
+  updated_at                                                     DateTime?      @db.Timestamp(6)
+  user_profiles_user_role_mapping_created_byTouser_profiles      user_profiles? @relation("user_role_mapping_created_byTouser_profiles", fields: [created_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  master_roles                                                   master_roles?  @relation(fields: [role_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user_profiles_user_role_mapping_updated_byTouser_profiles      user_profiles? @relation("user_role_mapping_updated_byTouser_profiles", fields: [updated_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user_profiles_user_role_mapping_user_profile_idTouser_profiles user_profiles? @relation("user_role_mapping_user_profile_idTouser_profiles", fields: [user_profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  workspaces                                                     workspaces?    @relation(fields: [workspace_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model user_workspace_access {
+  id                                                              String                 @id @db.Uuid
+  workspace_id                                                    String?                @db.Uuid
+  date_of_joining                                                 DateTime?              @db.Date
+  department                                                      String?                @db.Uuid
+  designation                                                     String?                @db.Uuid
+  reporting_to                                                    String?                @db.Uuid
+  created_by                                                      String?                @db.Uuid
+  updated_by                                                      String?                @db.Uuid
+  created_at                                                      DateTime?              @db.Timestamp(6)
+  updated_at                                                      DateTime?              @db.Timestamp(6)
+  user_profiles_user_workspace_access_created_byTouser_profiles   user_profiles?         @relation("user_workspace_access_created_byTouser_profiles", fields: [created_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  workspace_department                                            workspace_department?  @relation(fields: [department], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  workspace_designation                                           workspace_designation? @relation(fields: [designation], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user_profiles_user_workspace_access_reporting_toTouser_profiles user_profiles?         @relation("user_workspace_access_reporting_toTouser_profiles", fields: [reporting_to], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user_profiles_user_workspace_access_updated_byTouser_profiles   user_profiles?         @relation("user_workspace_access_updated_byTouser_profiles", fields: [updated_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  workspaces                                                      workspaces?            @relation(fields: [workspace_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model workspace_department {
+  id                                                           String                  @id @db.Uuid
+  workspace_id                                                 String?                 @db.Uuid
+  label                                                        String?                 @db.VarChar
+  description                                                  String?                 @db.VarChar
+  is_active                                                    Boolean?
+  created_by                                                   String?                 @db.Uuid
+  updated_by                                                   String?                 @db.Uuid
+  created_at                                                   DateTime?               @db.Timestamp(6)
+  updated_at                                                   DateTime?               @db.Timestamp(6)
+  user_workspace_access                                        user_workspace_access[]
+  user_profiles_workspace_department_created_byTouser_profiles user_profiles?          @relation("workspace_department_created_byTouser_profiles", fields: [created_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user_profiles_workspace_department_updated_byTouser_profiles user_profiles?          @relation("workspace_department_updated_byTouser_profiles", fields: [updated_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  workspaces                                                   workspaces?             @relation(fields: [workspace_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model workspace_designation {
+  id                                                            String                  @id @db.Uuid
+  workspace_id                                                  String?                 @db.Uuid
+  label                                                         String?                 @db.VarChar
+  description                                                   String?                 @db.VarChar
+  is_active                                                     Boolean?
+  created_by                                                    String?                 @db.Uuid
+  updated_by                                                    String?                 @db.Uuid
+  created_at                                                    DateTime?               @db.Timestamp(6)
+  updated_at                                                    DateTime?               @db.Timestamp(6)
+  user_workspace_access                                         user_workspace_access[]
+  user_profiles_workspace_designation_created_byTouser_profiles user_profiles?          @relation("workspace_designation_created_byTouser_profiles", fields: [created_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user_profiles_workspace_designation_updated_byTouser_profiles user_profiles?          @relation("workspace_designation_updated_byTouser_profiles", fields: [updated_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  workspaces                                                    workspaces?             @relation(fields: [workspace_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model workspace_grading {
+  id                                                        String         @id @db.Uuid
+  workspace_id                                              String?        @db.Uuid
+  label                                                     String?        @db.VarChar
+  description                                               String?        @db.VarChar
+  grade_value                                               Float?         @db.Real
+  is_active                                                 Boolean?
+  created_by                                                String?        @db.Uuid
+  updated_by                                                String?        @db.Uuid
+  created_at                                                DateTime?      @db.Timestamp(6)
+  updated_at                                                DateTime?      @db.Timestamp(6)
+  feedbacks                                                 feedbacks[]
+  user_profiles_workspace_grading_created_byTouser_profiles user_profiles? @relation("workspace_grading_created_byTouser_profiles", fields: [created_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user_profiles_workspace_grading_updated_byTouser_profiles user_profiles? @relation("workspace_grading_updated_byTouser_profiles", fields: [updated_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  workspaces                                                workspaces?    @relation(fields: [workspace_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model workspace_signals {
+  id            String         @id @db.Uuid
+  label         String?        @db.VarChar
+  is_active     Boolean?
+  created_by    String?        @db.Uuid
+  updated_by    String?        @db.Uuid
+  created_at    DateTime?      @db.Timestamp(6)
+  updated_at    DateTime?      @db.Timestamp(6)
+  feedbacks     feedbacks[]
+  user_profiles user_profiles? @relation(fields: [created_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model workspaces {
+  id                                                   String                  @id @db.Uuid
+  name                                                 String?                 @db.VarChar
+  logo                                                 String?                 @db.VarChar
+  feedback_type                                        Int?
+  created_by                                           String?                 @db.Uuid
+  updated_by                                           String?                 @db.Uuid
+  created_at                                           DateTime?               @db.Timestamp(6)
+  updated_at                                           DateTime?               @db.Timestamp(6)
+  feedbacks                                            feedbacks[]
+  user_profiles_user_profiles_workspace_idToworkspaces user_profiles[]         @relation("user_profiles_workspace_idToworkspaces")
+  user_role_mapping                                    user_role_mapping[]
+  user_workspace_access                                user_workspace_access[]
+  workspace_department                                 workspace_department[]
+  workspace_designation                                workspace_designation[]
+  workspace_grading                                    workspace_grading[]
+  user_profiles_workspaces_created_byTouser_profiles   user_profiles?          @relation("workspaces_created_byTouser_profiles", fields: [created_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  feedback_types                                       feedback_types?         @relation(fields: [feedback_type], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user_profiles_workspaces_updated_byTouser_profiles   user_profiles?          @relation("workspaces_updated_byTouser_profiles", fields: [updated_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
