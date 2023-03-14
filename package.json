@@ -7,7 +7,8 @@
 		"test": "test"
 	},
 	"prisma": {
-		"schema": "./prisma/schema.prisma"
+		"schema": "./prisma/schema.prisma",
+		"seed":"npx ts-node ./prisma/seed.ts"
 	},
 	"scripts": {
 		"test": "npm run build:ts && tsc -p test/tsconfig.json && tap --ts \"test/**/*.test.ts\"",

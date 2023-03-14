@@ -23,6 +23,7 @@ export type workspace_departmentPk = "id";
 export type workspace_departmentId =
   workspace_department[workspace_departmentPk];
 export type workspace_departmentOptionalAttributes =
+  | "id"
   | "workspace_id"
   | "label"
   | "description"
@@ -116,6 +117,7 @@ export class workspace_department
         id: {
           type: DataTypes.UUID,
           allowNull: false,
+          defaultValue: DataTypes.UUIDV4,
           primaryKey: true,
         },
         workspace_id: {
@@ -157,10 +159,12 @@ export class workspace_department
         created_at: {
           type: DataTypes.DATE,
           allowNull: true,
+          defaultValue: Sequelize.Sequelize.literal("CURRENT_TIMESTAMP"),
         },
         updated_at: {
           type: DataTypes.DATE,
           allowNull: true,
+          defaultValue: Sequelize.Sequelize.literal("CURRENT_TIMESTAMP"),
         },
       },
       {

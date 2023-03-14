@@ -20,6 +20,7 @@ export interface workspace_gradingAttributes {
 export type workspace_gradingPk = "id";
 export type workspace_gradingId = workspace_grading[workspace_gradingPk];
 export type workspace_gradingOptionalAttributes =
+  | "id"
   | "workspace_id"
   | "label"
   | "description"
@@ -98,6 +99,7 @@ export class workspace_grading
         id: {
           type: DataTypes.UUID,
           allowNull: false,
+          defaultValue: DataTypes.UUIDV4,
           primaryKey: true,
         },
         workspace_id: {
@@ -143,10 +145,12 @@ export class workspace_grading
         created_at: {
           type: DataTypes.DATE,
           allowNull: true,
+          defaultValue: Sequelize.Sequelize.literal("CURRENT_TIMESTAMP"),
         },
         updated_at: {
           type: DataTypes.DATE,
           allowNull: true,
+          defaultValue: Sequelize.Sequelize.literal("CURRENT_TIMESTAMP"),
         },
       },
       {

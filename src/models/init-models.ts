@@ -9,16 +9,16 @@ import type {
   feedback_responseAttributes,
   feedback_responseCreationAttributes,
 } from "./feedback_response";
-import { feedback_type as _feedback_type } from "./feedback_type";
-import type {
-  feedback_typeAttributes,
-  feedback_typeCreationAttributes,
-} from "./feedback_type";
 import { feedback as _feedback } from "./feedback";
 import type {
   feedbackAttributes,
   feedbackCreationAttributes,
 } from "./feedback";
+import { master_feedback_type as _master_feedback_type } from "./master_feedback_type";
+import type {
+  master_feedback_typeAttributes,
+  master_feedback_typeCreationAttributes,
+} from "./master_feedback_type";
 import { master_notification_type as _master_notification_type } from "./master_notification_type";
 import type {
   master_notification_typeAttributes,
@@ -83,8 +83,8 @@ import type {
 export {
   _feedback_reminder as feedback_reminder,
   _feedback_response as feedback_response,
-  _feedback_type as feedback_type,
   _feedback as feedback,
+  _master_feedback_type as master_feedback_type,
   _master_notification_type as master_notification_type,
   _master_role as master_role,
   _master_user_status as master_user_status,
@@ -104,10 +104,10 @@ export type {
   feedback_reminderCreationAttributes,
   feedback_responseAttributes,
   feedback_responseCreationAttributes,
-  feedback_typeAttributes,
-  feedback_typeCreationAttributes,
   feedbackAttributes,
   feedbackCreationAttributes,
+  master_feedback_typeAttributes,
+  master_feedback_typeCreationAttributes,
   master_notification_typeAttributes,
   master_notification_typeCreationAttributes,
   master_roleAttributes,
@@ -137,8 +137,8 @@ export type {
 export function initModels(sequelize: Sequelize) {
   const feedback_reminder = _feedback_reminder.initModel(sequelize);
   const feedback_response = _feedback_response.initModel(sequelize);
-  const feedback_type = _feedback_type.initModel(sequelize);
   const feedback = _feedback.initModel(sequelize);
+  const master_feedback_type = _master_feedback_type.initModel(sequelize);
   const master_notification_type =
     _master_notification_type.initModel(sequelize);
   const master_role = _master_role.initModel(sequelize);
@@ -161,14 +161,6 @@ export function initModels(sequelize: Sequelize) {
     as: "notifications",
     foreignKey: "reminder_id",
   });
-  workspace.belongsTo(feedback_type, {
-    as: "feedback_type_feedback_type",
-    foreignKey: "feedback_type",
-  });
-  feedback_type.hasMany(workspace, {
-    as: "workspaces",
-    foreignKey: "feedback_type",
-  });
   feedback_response.belongsTo(feedback, {
     as: "feedback",
     foreignKey: "feedback_id",
@@ -176,6 +168,14 @@ export function initModels(sequelize: Sequelize) {
   feedback.hasMany(feedback_response, {
     as: "feedback_responses",
     foreignKey: "feedback_id",
+  });
+  workspace.belongsTo(master_feedback_type, {
+    as: "feedback_type_master_feedback_type",
+    foreignKey: "feedback_type",
+  });
+  master_feedback_type.hasMany(workspace, {
+    as: "workspaces",
+    foreignKey: "feedback_type",
   });
   user_role_mapping.belongsTo(master_role, {
     as: "role",
@@ -241,22 +241,6 @@ export function initModels(sequelize: Sequelize) {
     as: "updated_by_feedback_responses",
     foreignKey: "updated_by",
   });
-  feedback_type.belongsTo(user_profile, {
-    as: "created_by_user_profile",
-    foreignKey: "created_by",
-  });
-  user_profile.hasMany(feedback_type, {
-    as: "feedback_types",
-    foreignKey: "created_by",
-  });
-  feedback_type.belongsTo(user_profile, {
-    as: "updated_by_user_profile",
-    foreignKey: "updated_by",
-  });
-  user_profile.hasMany(feedback_type, {
-    as: "updated_by_feedback_types",
-    foreignKey: "updated_by",
-  });
   feedback.belongsTo(user_profile, {
     as: "created_by_user_profile",
     foreignKey: "created_by",
@@ -275,54 +259,6 @@ export function initModels(sequelize: Sequelize) {
   });
   user_profile.hasMany(feedback, {
     as: "updated_by_feedbacks",
-    foreignKey: "updated_by",
-  });
-  master_notification_type.belongsTo(user_profile, {
-    as: "created_by_user_profile",
-    foreignKey: "created_by",
-  });
-  user_profile.hasMany(master_notification_type, {
-    as: "master_notification_types",
-    foreignKey: "created_by",
-  });
-  master_notification_type.belongsTo(user_profile, {
-    as: "updated_by_user_profile",
-    foreignKey: "updated_by",
-  });
-  user_profile.hasMany(master_notification_type, {
-    as: "updated_by_master_notification_types",
-    foreignKey: "updated_by",
-  });
-  master_role.belongsTo(user_profile, {
-    as: "created_by_user_profile",
-    foreignKey: "created_by",
-  });
-  user_profile.hasMany(master_role, {
-    as: "master_roles",
-    foreignKey: "created_by",
-  });
-  master_role.belongsTo(user_profile, {
-    as: "updated_by_user_profile",
-    foreignKey: "updated_by",
-  });
-  user_profile.hasMany(master_role, {
-    as: "updated_by_master_roles",
-    foreignKey: "updated_by",
-  });
-  master_user_status.belongsTo(user_profile, {
-    as: "created_by_user_profile",
-    foreignKey: "created_by",
-  });
-  user_profile.hasMany(master_user_status, {
-    as: "master_user_statuses",
-    foreignKey: "created_by",
-  });
-  master_user_status.belongsTo(user_profile, {
-    as: "updated_by_user_profile",
-    foreignKey: "updated_by",
-  });
-  user_profile.hasMany(master_user_status, {
-    as: "updated_by_master_user_statuses",
     foreignKey: "updated_by",
   });
   notification.belongsTo(user_profile, {
@@ -461,6 +397,14 @@ export function initModels(sequelize: Sequelize) {
     as: "workspace_signals",
     foreignKey: "created_by",
   });
+  workspace_signal.belongsTo(user_profile, {
+    as: "updated_by_user_profile",
+    foreignKey: "updated_by",
+  });
+  user_profile.hasMany(workspace_signal, {
+    as: "updated_by_workspace_signals",
+    foreignKey: "updated_by",
+  });
   workspace.belongsTo(user_profile, {
     as: "created_by_user_profile",
     foreignKey: "created_by",
@@ -563,8 +507,8 @@ export function initModels(sequelize: Sequelize) {
   return {
     feedback_reminder: feedback_reminder,
     feedback_response: feedback_response,
-    feedback_type: feedback_type,
     feedback: feedback,
+    master_feedback_type: master_feedback_type,
     master_notification_type: master_notification_type,
     master_role: master_role,
     master_user_status: master_user_status,

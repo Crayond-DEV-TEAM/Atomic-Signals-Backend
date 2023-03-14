@@ -1,16 +1,20 @@
+
+
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp" ;
+
 CREATE TABLE "workspaces" (
-  "id" uuid PRIMARY KEY,
+  "id" uuid PRIMARY KEY DEFAULT (gen_random_uuid()),
   "name" varchar,
   "logo" varchar,
   "feedback_type" int,
   "created_by" uuid,
   "updated_by" uuid,
-  "created_at" timestamp,
-  "updated_at" timestamp
+  "created_at" timestamp DEFAULT (CURRENT_TIMESTAMP),
+  "updated_at" timestamp DEFAULT (CURRENT_TIMESTAMP)
 );
 
 CREATE TABLE "user_workspace_access" (
-  "id" uuid PRIMARY KEY,
+  "id" uuid PRIMARY KEY DEFAULT (gen_random_uuid()),
   "workspace_id" uuid,
   "date_of_joining" date,
   "department" uuid,
@@ -18,12 +22,12 @@ CREATE TABLE "user_workspace_access" (
   "reporting_to" uuid,
   "created_by" uuid,
   "updated_by" uuid,
-  "created_at" timestamp,
-  "updated_at" timestamp
+  "created_at" timestamp DEFAULT (CURRENT_TIMESTAMP),
+  "updated_at" timestamp DEFAULT (CURRENT_TIMESTAMP)
 );
 
 CREATE TABLE "user_profiles" (
-  "id" uuid PRIMARY KEY,
+  "id" uuid PRIMARY KEY DEFAULT (gen_random_uuid()),
   "workspace_id" uuid,
   "user_id" varchar,
   "profile_pic" varchar,
@@ -31,12 +35,12 @@ CREATE TABLE "user_profiles" (
   "status" int,
   "created_by" uuid,
   "updated_by" uuid,
-  "created_at" timestamp,
-  "updated_at" timestamp
+  "created_at" timestamp DEFAULT (CURRENT_TIMESTAMP),
+  "updated_at" timestamp DEFAULT (CURRENT_TIMESTAMP)
 );
 
 CREATE TABLE "workspace_grading" (
-  "id" uuid PRIMARY KEY,
+  "id" uuid PRIMARY KEY DEFAULT (gen_random_uuid()),
   "workspace_id" uuid,
   "label" varchar,
   "description" varchar,
@@ -44,26 +48,22 @@ CREATE TABLE "workspace_grading" (
   "is_active" boolean,
   "created_by" uuid,
   "updated_by" uuid,
-  "created_at" timestamp,
-  "updated_at" timestamp
+  "created_at" timestamp DEFAULT (CURRENT_TIMESTAMP),
+  "updated_at" timestamp DEFAULT (CURRENT_TIMESTAMP)
 );
 
 CREATE TABLE "master_user_statuses" (
   "id" int PRIMARY KEY,
   "label" varchar,
-  "created_by" uuid,
-  "updated_by" uuid,
-  "created_at" timestamp,
-  "updated_at" timestamp
+  "created_at" timestamp DEFAULT (CURRENT_TIMESTAMP),
+  "updated_at" timestamp DEFAULT (CURRENT_TIMESTAMP)
 );
 
-CREATE TABLE "feedback_types" (
+CREATE TABLE "master_feedback_types" (
   "id" int PRIMARY KEY,
   "label" varchar,
-  "created_by" uuid,
-  "updated_by" uuid,
-  "created_at" timestamp,
-  "updated_at" timestamp
+  "created_at" timestamp DEFAULT (CURRENT_TIMESTAMP),
+  "updated_at" timestamp DEFAULT (CURRENT_TIMESTAMP)
 );
 
 CREATE TABLE "user_role_mapping" (
@@ -73,31 +73,29 @@ CREATE TABLE "user_role_mapping" (
   "role_id" int,
   "created_by" uuid,
   "updated_by" uuid,
-  "created_at" timestamp,
-  "updated_at" timestamp
+  "created_at" timestamp DEFAULT (CURRENT_TIMESTAMP),
+  "updated_at" timestamp DEFAULT (CURRENT_TIMESTAMP)
 );
 
 CREATE TABLE "master_roles" (
   "id" int PRIMARY KEY,
   "label" varchar,
-  "created_by" uuid,
-  "updated_by" uuid,
-  "created_at" timestamp,
-  "updated_at" timestamp
+  "created_at" timestamp DEFAULT (CURRENT_TIMESTAMP),
+  "updated_at" timestamp DEFAULT (CURRENT_TIMESTAMP)
 );
 
 CREATE TABLE "workspace_signals" (
-  "id" uuid PRIMARY KEY,
+  "id" uuid PRIMARY KEY DEFAULT (gen_random_uuid()),
   "label" varchar,
   "is_active" boolean,
   "created_by" uuid,
   "updated_by" uuid,
-  "created_at" timestamp,
-  "updated_at" timestamp
+  "created_at" timestamp DEFAULT (CURRENT_TIMESTAMP),
+  "updated_at" timestamp DEFAULT (CURRENT_TIMESTAMP)
 );
 
 CREATE TABLE "feedbacks" (
-  "id" uuid PRIMARY KEY,
+  "id" uuid PRIMARY KEY DEFAULT (gen_random_uuid()),
   "workspace_id" uuid,
   "signal" uuid,
   "grading" uuid,
@@ -106,77 +104,75 @@ CREATE TABLE "feedbacks" (
   "is_responded" boolean,
   "created_by" uuid,
   "updated_by" uuid,
-  "created_at" timestamp,
-  "updated_at" timestamp
+  "created_at" timestamp DEFAULT (CURRENT_TIMESTAMP),
+  "updated_at" timestamp DEFAULT (CURRENT_TIMESTAMP)
 );
 
 CREATE TABLE "feedback_responses" (
-  "id" uuid PRIMARY KEY,
+  "id" uuid PRIMARY KEY DEFAULT (gen_random_uuid()),
   "feedback_id" uuid,
   "reason" varchar,
   "description" varchar,
   "created_by" uuid,
   "updated_by" uuid,
-  "created_at" timestamp,
-  "updated_at" timestamp
+  "created_at" timestamp DEFAULT (CURRENT_TIMESTAMP),
+  "updated_at" timestamp DEFAULT (CURRENT_TIMESTAMP)
 );
 
 CREATE TABLE "workspace_department" (
-  "id" uuid PRIMARY KEY,
+  "id" uuid PRIMARY KEY DEFAULT (gen_random_uuid()),
   "workspace_id" uuid,
   "label" varchar,
   "description" varchar,
   "is_active" boolean,
   "created_by" uuid,
   "updated_by" uuid,
-  "created_at" timestamp,
-  "updated_at" timestamp
+  "created_at" timestamp DEFAULT (CURRENT_TIMESTAMP),
+  "updated_at" timestamp DEFAULT (CURRENT_TIMESTAMP)
 );
 
 CREATE TABLE "workspace_designation" (
-  "id" uuid PRIMARY KEY,
+  "id" uuid PRIMARY KEY DEFAULT (gen_random_uuid()),
   "workspace_id" uuid,
   "label" varchar,
   "description" varchar,
   "is_active" boolean,
   "created_by" uuid,
   "updated_by" uuid,
-  "created_at" timestamp,
-  "updated_at" timestamp
+  "created_at" timestamp DEFAULT (CURRENT_TIMESTAMP),
+  "updated_at" timestamp DEFAULT (CURRENT_TIMESTAMP)
 );
 
 CREATE TABLE "feedback_reminder" (
-  "id" uuid PRIMARY KEY,
+  "id" uuid PRIMARY KEY DEFAULT (gen_random_uuid()),
   "from" uuid,
   "to" uuid,
   "remind_by" timestamp,
   "status" varchar,
   "created_by" uuid,
   "updated_by" uuid,
-  "created_at" timestamp,
-  "updated_at" timestamp
+  "created_at" timestamp DEFAULT (CURRENT_TIMESTAMP),
+  "updated_at" timestamp DEFAULT (CURRENT_TIMESTAMP)
 );
 
 CREATE TABLE "notification" (
-  "id" uuid PRIMARY KEY,
+  "id" uuid PRIMARY KEY DEFAULT (gen_random_uuid()),
   "reminder_id" uuid,
   "type" uuid,
   "created_by" uuid,
   "updated_by" uuid,
-  "created_at" timestamp,
-  "updated_at" timestamp
+  "created_at" timestamp DEFAULT (CURRENT_TIMESTAMP),
+  "updated_at" timestamp DEFAULT (CURRENT_TIMESTAMP)
 );
 
 CREATE TABLE "master_notification_type" (
   "id" int PRIMARY KEY,
   "label" varchar,
-  "created_by" uuid,
-  "updated_by" uuid,
-  "created_at" timestamp,
-  "updated_at" timestamp
+  "created_at" timestamp DEFAULT (CURRENT_TIMESTAMP),
+  "updated_at" timestamp DEFAULT (CURRENT_TIMESTAMP)
 );
 
-ALTER TABLE "workspaces" ADD FOREIGN KEY ("feedback_type") REFERENCES "feedback_types" ("id");
+ALTER TABLE "workspaces" ADD FOREIGN KEY ("feedback_type") REFERENCES "master_feedback_types" ("id");
 
 ALTER TABLE "workspaces" ADD FOREIGN KEY ("created_by") REFERENCES "user_profiles" ("id");
 
@@ -208,14 +204,6 @@ ALTER TABLE "workspace_grading" ADD FOREIGN KEY ("created_by") REFERENCES "user_
 
 ALTER TABLE "workspace_grading" ADD FOREIGN KEY ("updated_by") REFERENCES "user_profiles" ("id");
 
-ALTER TABLE "master_user_statuses" ADD FOREIGN KEY ("created_by") REFERENCES "user_profiles" ("id");
-
-ALTER TABLE "master_user_statuses" ADD FOREIGN KEY ("updated_by") REFERENCES "user_profiles" ("id");
-
-ALTER TABLE "feedback_types" ADD FOREIGN KEY ("created_by") REFERENCES "user_profiles" ("id");
-
-ALTER TABLE "feedback_types" ADD FOREIGN KEY ("updated_by") REFERENCES "user_profiles" ("id");
-
 ALTER TABLE "user_role_mapping" ADD FOREIGN KEY ("workspace_id") REFERENCES "workspaces" ("id");
 
 ALTER TABLE "user_role_mapping" ADD FOREIGN KEY ("user_profile_id") REFERENCES "user_profiles" ("id");
@@ -226,11 +214,9 @@ ALTER TABLE "user_role_mapping" ADD FOREIGN KEY ("created_by") REFERENCES "user_
 
 ALTER TABLE "user_role_mapping" ADD FOREIGN KEY ("updated_by") REFERENCES "user_profiles" ("id");
 
-ALTER TABLE "master_roles" ADD FOREIGN KEY ("created_by") REFERENCES "user_profiles" ("id");
-
-ALTER TABLE "master_roles" ADD FOREIGN KEY ("updated_by") REFERENCES "user_profiles" ("id");
-
 ALTER TABLE "workspace_signals" ADD FOREIGN KEY ("created_by") REFERENCES "user_profiles" ("id");
+
+ALTER TABLE "workspace_signals" ADD FOREIGN KEY ("updated_by") REFERENCES "user_profiles" ("id");
 
 ALTER TABLE "feedbacks" ADD FOREIGN KEY ("workspace_id") REFERENCES "workspaces" ("id");
 
@@ -277,7 +263,3 @@ ALTER TABLE "notification" ADD FOREIGN KEY ("reminder_id") REFERENCES "feedback_
 ALTER TABLE "notification" ADD FOREIGN KEY ("created_by") REFERENCES "user_profiles" ("id");
 
 ALTER TABLE "notification" ADD FOREIGN KEY ("updated_by") REFERENCES "user_profiles" ("id");
-
-ALTER TABLE "master_notification_type" ADD FOREIGN KEY ("created_by") REFERENCES "user_profiles" ("id");
-
-ALTER TABLE "master_notification_type" ADD FOREIGN KEY ("updated_by") REFERENCES "user_profiles" ("id");

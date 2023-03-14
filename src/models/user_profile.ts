@@ -8,13 +8,7 @@ import type {
   feedback_response,
   feedback_responseId,
 } from "./feedback_response";
-import type { feedback_type, feedback_typeId } from "./feedback_type";
 import type { feedback, feedbackId } from "./feedback";
-import type {
-  master_notification_type,
-  master_notification_typeId,
-} from "./master_notification_type";
-import type { master_role, master_roleId } from "./master_role";
 import type {
   master_user_status,
   master_user_statusId,
@@ -59,6 +53,7 @@ export interface user_profileAttributes {
 export type user_profilePk = "id";
 export type user_profileId = user_profile[user_profilePk];
 export type user_profileOptionalAttributes =
+  | "id"
   | "workspace_id"
   | "user_id"
   | "profile_pic"
@@ -294,72 +289,6 @@ export class user_profile
     feedback_responseId
   >;
   countUpdated_by_feedback_responses!: Sequelize.HasManyCountAssociationsMixin;
-  // user_profile hasMany feedback_type via created_by
-  feedback_types!: feedback_type[];
-  getFeedback_types!: Sequelize.HasManyGetAssociationsMixin<feedback_type>;
-  setFeedback_types!: Sequelize.HasManySetAssociationsMixin<
-    feedback_type,
-    feedback_typeId
-  >;
-  addFeedback_type!: Sequelize.HasManyAddAssociationMixin<
-    feedback_type,
-    feedback_typeId
-  >;
-  addFeedback_types!: Sequelize.HasManyAddAssociationsMixin<
-    feedback_type,
-    feedback_typeId
-  >;
-  createFeedback_type!: Sequelize.HasManyCreateAssociationMixin<feedback_type>;
-  removeFeedback_type!: Sequelize.HasManyRemoveAssociationMixin<
-    feedback_type,
-    feedback_typeId
-  >;
-  removeFeedback_types!: Sequelize.HasManyRemoveAssociationsMixin<
-    feedback_type,
-    feedback_typeId
-  >;
-  hasFeedback_type!: Sequelize.HasManyHasAssociationMixin<
-    feedback_type,
-    feedback_typeId
-  >;
-  hasFeedback_types!: Sequelize.HasManyHasAssociationsMixin<
-    feedback_type,
-    feedback_typeId
-  >;
-  countFeedback_types!: Sequelize.HasManyCountAssociationsMixin;
-  // user_profile hasMany feedback_type via updated_by
-  updated_by_feedback_types!: feedback_type[];
-  getUpdated_by_feedback_types!: Sequelize.HasManyGetAssociationsMixin<feedback_type>;
-  setUpdated_by_feedback_types!: Sequelize.HasManySetAssociationsMixin<
-    feedback_type,
-    feedback_typeId
-  >;
-  addUpdated_by_feedback_type!: Sequelize.HasManyAddAssociationMixin<
-    feedback_type,
-    feedback_typeId
-  >;
-  addUpdated_by_feedback_types!: Sequelize.HasManyAddAssociationsMixin<
-    feedback_type,
-    feedback_typeId
-  >;
-  createUpdated_by_feedback_type!: Sequelize.HasManyCreateAssociationMixin<feedback_type>;
-  removeUpdated_by_feedback_type!: Sequelize.HasManyRemoveAssociationMixin<
-    feedback_type,
-    feedback_typeId
-  >;
-  removeUpdated_by_feedback_types!: Sequelize.HasManyRemoveAssociationsMixin<
-    feedback_type,
-    feedback_typeId
-  >;
-  hasUpdated_by_feedback_type!: Sequelize.HasManyHasAssociationMixin<
-    feedback_type,
-    feedback_typeId
-  >;
-  hasUpdated_by_feedback_types!: Sequelize.HasManyHasAssociationsMixin<
-    feedback_type,
-    feedback_typeId
-  >;
-  countUpdated_by_feedback_types!: Sequelize.HasManyCountAssociationsMixin;
   // user_profile hasMany feedback via created_by
   feedbacks!: feedback[];
   getFeedbacks!: Sequelize.HasManyGetAssociationsMixin<feedback>;
@@ -456,204 +385,6 @@ export class user_profile
     feedbackId
   >;
   countUpdated_by_feedbacks!: Sequelize.HasManyCountAssociationsMixin;
-  // user_profile hasMany master_notification_type via created_by
-  master_notification_types!: master_notification_type[];
-  getMaster_notification_types!: Sequelize.HasManyGetAssociationsMixin<master_notification_type>;
-  setMaster_notification_types!: Sequelize.HasManySetAssociationsMixin<
-    master_notification_type,
-    master_notification_typeId
-  >;
-  addMaster_notification_type!: Sequelize.HasManyAddAssociationMixin<
-    master_notification_type,
-    master_notification_typeId
-  >;
-  addMaster_notification_types!: Sequelize.HasManyAddAssociationsMixin<
-    master_notification_type,
-    master_notification_typeId
-  >;
-  createMaster_notification_type!: Sequelize.HasManyCreateAssociationMixin<master_notification_type>;
-  removeMaster_notification_type!: Sequelize.HasManyRemoveAssociationMixin<
-    master_notification_type,
-    master_notification_typeId
-  >;
-  removeMaster_notification_types!: Sequelize.HasManyRemoveAssociationsMixin<
-    master_notification_type,
-    master_notification_typeId
-  >;
-  hasMaster_notification_type!: Sequelize.HasManyHasAssociationMixin<
-    master_notification_type,
-    master_notification_typeId
-  >;
-  hasMaster_notification_types!: Sequelize.HasManyHasAssociationsMixin<
-    master_notification_type,
-    master_notification_typeId
-  >;
-  countMaster_notification_types!: Sequelize.HasManyCountAssociationsMixin;
-  // user_profile hasMany master_notification_type via updated_by
-  updated_by_master_notification_types!: master_notification_type[];
-  getUpdated_by_master_notification_types!: Sequelize.HasManyGetAssociationsMixin<master_notification_type>;
-  setUpdated_by_master_notification_types!: Sequelize.HasManySetAssociationsMixin<
-    master_notification_type,
-    master_notification_typeId
-  >;
-  addUpdated_by_master_notification_type!: Sequelize.HasManyAddAssociationMixin<
-    master_notification_type,
-    master_notification_typeId
-  >;
-  addUpdated_by_master_notification_types!: Sequelize.HasManyAddAssociationsMixin<
-    master_notification_type,
-    master_notification_typeId
-  >;
-  createUpdated_by_master_notification_type!: Sequelize.HasManyCreateAssociationMixin<master_notification_type>;
-  removeUpdated_by_master_notification_type!: Sequelize.HasManyRemoveAssociationMixin<
-    master_notification_type,
-    master_notification_typeId
-  >;
-  removeUpdated_by_master_notification_types!: Sequelize.HasManyRemoveAssociationsMixin<
-    master_notification_type,
-    master_notification_typeId
-  >;
-  hasUpdated_by_master_notification_type!: Sequelize.HasManyHasAssociationMixin<
-    master_notification_type,
-    master_notification_typeId
-  >;
-  hasUpdated_by_master_notification_types!: Sequelize.HasManyHasAssociationsMixin<
-    master_notification_type,
-    master_notification_typeId
-  >;
-  countUpdated_by_master_notification_types!: Sequelize.HasManyCountAssociationsMixin;
-  // user_profile hasMany master_role via created_by
-  master_roles!: master_role[];
-  getMaster_roles!: Sequelize.HasManyGetAssociationsMixin<master_role>;
-  setMaster_roles!: Sequelize.HasManySetAssociationsMixin<
-    master_role,
-    master_roleId
-  >;
-  addMaster_role!: Sequelize.HasManyAddAssociationMixin<
-    master_role,
-    master_roleId
-  >;
-  addMaster_roles!: Sequelize.HasManyAddAssociationsMixin<
-    master_role,
-    master_roleId
-  >;
-  createMaster_role!: Sequelize.HasManyCreateAssociationMixin<master_role>;
-  removeMaster_role!: Sequelize.HasManyRemoveAssociationMixin<
-    master_role,
-    master_roleId
-  >;
-  removeMaster_roles!: Sequelize.HasManyRemoveAssociationsMixin<
-    master_role,
-    master_roleId
-  >;
-  hasMaster_role!: Sequelize.HasManyHasAssociationMixin<
-    master_role,
-    master_roleId
-  >;
-  hasMaster_roles!: Sequelize.HasManyHasAssociationsMixin<
-    master_role,
-    master_roleId
-  >;
-  countMaster_roles!: Sequelize.HasManyCountAssociationsMixin;
-  // user_profile hasMany master_role via updated_by
-  updated_by_master_roles!: master_role[];
-  getUpdated_by_master_roles!: Sequelize.HasManyGetAssociationsMixin<master_role>;
-  setUpdated_by_master_roles!: Sequelize.HasManySetAssociationsMixin<
-    master_role,
-    master_roleId
-  >;
-  addUpdated_by_master_role!: Sequelize.HasManyAddAssociationMixin<
-    master_role,
-    master_roleId
-  >;
-  addUpdated_by_master_roles!: Sequelize.HasManyAddAssociationsMixin<
-    master_role,
-    master_roleId
-  >;
-  createUpdated_by_master_role!: Sequelize.HasManyCreateAssociationMixin<master_role>;
-  removeUpdated_by_master_role!: Sequelize.HasManyRemoveAssociationMixin<
-    master_role,
-    master_roleId
-  >;
-  removeUpdated_by_master_roles!: Sequelize.HasManyRemoveAssociationsMixin<
-    master_role,
-    master_roleId
-  >;
-  hasUpdated_by_master_role!: Sequelize.HasManyHasAssociationMixin<
-    master_role,
-    master_roleId
-  >;
-  hasUpdated_by_master_roles!: Sequelize.HasManyHasAssociationsMixin<
-    master_role,
-    master_roleId
-  >;
-  countUpdated_by_master_roles!: Sequelize.HasManyCountAssociationsMixin;
-  // user_profile hasMany master_user_status via created_by
-  master_user_statuses!: master_user_status[];
-  getMaster_user_statuses!: Sequelize.HasManyGetAssociationsMixin<master_user_status>;
-  setMaster_user_statuses!: Sequelize.HasManySetAssociationsMixin<
-    master_user_status,
-    master_user_statusId
-  >;
-  addMaster_user_status!: Sequelize.HasManyAddAssociationMixin<
-    master_user_status,
-    master_user_statusId
-  >;
-  addMaster_user_statuses!: Sequelize.HasManyAddAssociationsMixin<
-    master_user_status,
-    master_user_statusId
-  >;
-  createMaster_user_status!: Sequelize.HasManyCreateAssociationMixin<master_user_status>;
-  removeMaster_user_status!: Sequelize.HasManyRemoveAssociationMixin<
-    master_user_status,
-    master_user_statusId
-  >;
-  removeMaster_user_statuses!: Sequelize.HasManyRemoveAssociationsMixin<
-    master_user_status,
-    master_user_statusId
-  >;
-  hasMaster_user_status!: Sequelize.HasManyHasAssociationMixin<
-    master_user_status,
-    master_user_statusId
-  >;
-  hasMaster_user_statuses!: Sequelize.HasManyHasAssociationsMixin<
-    master_user_status,
-    master_user_statusId
-  >;
-  countMaster_user_statuses!: Sequelize.HasManyCountAssociationsMixin;
-  // user_profile hasMany master_user_status via updated_by
-  updated_by_master_user_statuses!: master_user_status[];
-  getUpdated_by_master_user_statuses!: Sequelize.HasManyGetAssociationsMixin<master_user_status>;
-  setUpdated_by_master_user_statuses!: Sequelize.HasManySetAssociationsMixin<
-    master_user_status,
-    master_user_statusId
-  >;
-  addUpdated_by_master_user_status!: Sequelize.HasManyAddAssociationMixin<
-    master_user_status,
-    master_user_statusId
-  >;
-  addUpdated_by_master_user_statuses!: Sequelize.HasManyAddAssociationsMixin<
-    master_user_status,
-    master_user_statusId
-  >;
-  createUpdated_by_master_user_status!: Sequelize.HasManyCreateAssociationMixin<master_user_status>;
-  removeUpdated_by_master_user_status!: Sequelize.HasManyRemoveAssociationMixin<
-    master_user_status,
-    master_user_statusId
-  >;
-  removeUpdated_by_master_user_statuses!: Sequelize.HasManyRemoveAssociationsMixin<
-    master_user_status,
-    master_user_statusId
-  >;
-  hasUpdated_by_master_user_status!: Sequelize.HasManyHasAssociationMixin<
-    master_user_status,
-    master_user_statusId
-  >;
-  hasUpdated_by_master_user_statuses!: Sequelize.HasManyHasAssociationsMixin<
-    master_user_status,
-    master_user_statusId
-  >;
-  countUpdated_by_master_user_statuses!: Sequelize.HasManyCountAssociationsMixin;
   // user_profile hasMany notification via created_by
   notifications!: notification[];
   getNotifications!: Sequelize.HasManyGetAssociationsMixin<notification>;
@@ -1165,6 +896,39 @@ export class user_profile
     workspace_signalId
   >;
   countWorkspace_signals!: Sequelize.HasManyCountAssociationsMixin;
+  // user_profile hasMany workspace_signal via updated_by
+  updated_by_workspace_signals!: workspace_signal[];
+  getUpdated_by_workspace_signals!: Sequelize.HasManyGetAssociationsMixin<workspace_signal>;
+  setUpdated_by_workspace_signals!: Sequelize.HasManySetAssociationsMixin<
+    workspace_signal,
+    workspace_signalId
+  >;
+  addUpdated_by_workspace_signal!: Sequelize.HasManyAddAssociationMixin<
+    workspace_signal,
+    workspace_signalId
+  >;
+  addUpdated_by_workspace_signals!: Sequelize.HasManyAddAssociationsMixin<
+    workspace_signal,
+    workspace_signalId
+  >;
+  createUpdated_by_workspace_signal!: Sequelize.HasManyCreateAssociationMixin<workspace_signal>;
+  removeUpdated_by_workspace_signal!: Sequelize.HasManyRemoveAssociationMixin<
+    workspace_signal,
+    workspace_signalId
+  >;
+  removeUpdated_by_workspace_signals!: Sequelize.HasManyRemoveAssociationsMixin<
+    workspace_signal,
+    workspace_signalId
+  >;
+  hasUpdated_by_workspace_signal!: Sequelize.HasManyHasAssociationMixin<
+    workspace_signal,
+    workspace_signalId
+  >;
+  hasUpdated_by_workspace_signals!: Sequelize.HasManyHasAssociationsMixin<
+    workspace_signal,
+    workspace_signalId
+  >;
+  countUpdated_by_workspace_signals!: Sequelize.HasManyCountAssociationsMixin;
   // user_profile hasMany workspace via created_by
   created_by_workspaces!: workspace[];
   getCreated_by_workspaces!: Sequelize.HasManyGetAssociationsMixin<workspace>;
@@ -1243,6 +1007,7 @@ export class user_profile
         id: {
           type: DataTypes.UUID,
           allowNull: false,
+          defaultValue: DataTypes.UUIDV4,
           primaryKey: true,
         },
         workspace_id: {
@@ -1292,10 +1057,12 @@ export class user_profile
         created_at: {
           type: DataTypes.DATE,
           allowNull: true,
+          defaultValue: Sequelize.Sequelize.literal("CURRENT_TIMESTAMP"),
         },
         updated_at: {
           type: DataTypes.DATE,
           allowNull: true,
+          defaultValue: Sequelize.Sequelize.literal("CURRENT_TIMESTAMP"),
         },
       },
       {

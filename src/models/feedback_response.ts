@@ -17,6 +17,7 @@ export interface feedback_responseAttributes {
 export type feedback_responsePk = "id";
 export type feedback_responseId = feedback_response[feedback_responsePk];
 export type feedback_responseOptionalAttributes =
+  | "id"
   | "feedback_id"
   | "reason"
   | "description"
@@ -73,6 +74,7 @@ export class feedback_response
         id: {
           type: DataTypes.UUID,
           allowNull: false,
+          defaultValue: DataTypes.UUIDV4,
           primaryKey: true,
         },
         feedback_id: {
@@ -110,10 +112,12 @@ export class feedback_response
         created_at: {
           type: DataTypes.DATE,
           allowNull: true,
+          defaultValue: Sequelize.Sequelize.literal("CURRENT_TIMESTAMP"),
         },
         updated_at: {
           type: DataTypes.DATE,
           allowNull: true,
+          defaultValue: Sequelize.Sequelize.literal("CURRENT_TIMESTAMP"),
         },
       },
       {

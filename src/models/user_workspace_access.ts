@@ -28,6 +28,7 @@ export type user_workspace_accessPk = "id";
 export type user_workspace_accessId =
   user_workspace_access[user_workspace_accessPk];
 export type user_workspace_accessOptionalAttributes =
+  | "id"
   | "workspace_id"
   | "date_of_joining"
   | "department"
@@ -114,6 +115,7 @@ export class user_workspace_access
         id: {
           type: DataTypes.UUID,
           allowNull: false,
+          defaultValue: DataTypes.UUIDV4,
           primaryKey: true,
         },
         workspace_id: {
@@ -171,10 +173,12 @@ export class user_workspace_access
         created_at: {
           type: DataTypes.DATE,
           allowNull: true,
+          defaultValue: Sequelize.Sequelize.literal("CURRENT_TIMESTAMP"),
         },
         updated_at: {
           type: DataTypes.DATE,
           allowNull: true,
+          defaultValue: Sequelize.Sequelize.literal("CURRENT_TIMESTAMP"),
         },
       },
       {

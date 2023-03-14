@@ -29,6 +29,7 @@ export interface feedbackAttributes {
 export type feedbackPk = "id";
 export type feedbackId = feedback[feedbackPk];
 export type feedbackOptionalAttributes =
+  | "id"
   | "workspace_id"
   | "signal"
   | "grading"
@@ -153,6 +154,7 @@ export class feedback
         id: {
           type: DataTypes.UUID,
           allowNull: false,
+          defaultValue: DataTypes.UUIDV4,
           primaryKey: true,
         },
         workspace_id: {
@@ -218,10 +220,12 @@ export class feedback
         created_at: {
           type: DataTypes.DATE,
           allowNull: true,
+          defaultValue: Sequelize.Sequelize.literal("CURRENT_TIMESTAMP"),
         },
         updated_at: {
           type: DataTypes.DATE,
           allowNull: true,
+          defaultValue: Sequelize.Sequelize.literal("CURRENT_TIMESTAMP"),
         },
       },
       {

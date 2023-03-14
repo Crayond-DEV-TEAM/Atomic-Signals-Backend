@@ -5,8 +5,6 @@ import type { user_profile, user_profileId } from "./user_profile";
 export interface master_user_statusAttributes {
   id: number;
   label?: string;
-  created_by?: string;
-  updated_by?: string;
   created_at?: Date;
   updated_at?: Date;
 }
@@ -15,8 +13,6 @@ export type master_user_statusPk = "id";
 export type master_user_statusId = master_user_status[master_user_statusPk];
 export type master_user_statusOptionalAttributes =
   | "label"
-  | "created_by"
-  | "updated_by"
   | "created_at"
   | "updated_at";
 export type master_user_statusCreationAttributes = Optional<
@@ -33,8 +29,6 @@ export class master_user_status
 {
   id!: number;
   label?: string;
-  created_by?: string;
-  updated_by?: string;
   created_at?: Date;
   updated_at?: Date;
 
@@ -71,22 +65,6 @@ export class master_user_status
     user_profileId
   >;
   countUser_profiles!: Sequelize.HasManyCountAssociationsMixin;
-  // master_user_status belongsTo user_profile via created_by
-  created_by_user_profile!: user_profile;
-  getCreated_by_user_profile!: Sequelize.BelongsToGetAssociationMixin<user_profile>;
-  setCreated_by_user_profile!: Sequelize.BelongsToSetAssociationMixin<
-    user_profile,
-    user_profileId
-  >;
-  createCreated_by_user_profile!: Sequelize.BelongsToCreateAssociationMixin<user_profile>;
-  // master_user_status belongsTo user_profile via updated_by
-  updated_by_user_profile!: user_profile;
-  getUpdated_by_user_profile!: Sequelize.BelongsToGetAssociationMixin<user_profile>;
-  setUpdated_by_user_profile!: Sequelize.BelongsToSetAssociationMixin<
-    user_profile,
-    user_profileId
-  >;
-  createUpdated_by_user_profile!: Sequelize.BelongsToCreateAssociationMixin<user_profile>;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof master_user_status {
     return master_user_status.init(
@@ -100,29 +78,15 @@ export class master_user_status
           type: DataTypes.STRING,
           allowNull: true,
         },
-        created_by: {
-          type: DataTypes.UUID,
-          allowNull: true,
-          references: {
-            model: "user_profiles",
-            key: "id",
-          },
-        },
-        updated_by: {
-          type: DataTypes.UUID,
-          allowNull: true,
-          references: {
-            model: "user_profiles",
-            key: "id",
-          },
-        },
         created_at: {
           type: DataTypes.DATE,
           allowNull: true,
+          defaultValue: Sequelize.Sequelize.literal("CURRENT_TIMESTAMP"),
         },
         updated_at: {
           type: DataTypes.DATE,
           allowNull: true,
+          defaultValue: Sequelize.Sequelize.literal("CURRENT_TIMESTAMP"),
         },
       },
       {

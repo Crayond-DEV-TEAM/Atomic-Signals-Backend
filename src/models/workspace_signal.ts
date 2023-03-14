@@ -16,6 +16,7 @@ export interface workspace_signalAttributes {
 export type workspace_signalPk = "id";
 export type workspace_signalId = workspace_signal[workspace_signalPk];
 export type workspace_signalOptionalAttributes =
+  | "id"
   | "label"
   | "is_active"
   | "created_by"
@@ -47,6 +48,14 @@ export class workspace_signal
     user_profileId
   >;
   createCreated_by_user_profile!: Sequelize.BelongsToCreateAssociationMixin<user_profile>;
+  // workspace_signal belongsTo user_profile via updated_by
+  updated_by_user_profile!: user_profile;
+  getUpdated_by_user_profile!: Sequelize.BelongsToGetAssociationMixin<user_profile>;
+  setUpdated_by_user_profile!: Sequelize.BelongsToSetAssociationMixin<
+    user_profile,
+    user_profileId
+  >;
+  createUpdated_by_user_profile!: Sequelize.BelongsToCreateAssociationMixin<user_profile>;
   // workspace_signal hasMany feedback via signal
   feedbacks!: feedback[];
   getFeedbacks!: Sequelize.HasManyGetAssociationsMixin<feedback>;
@@ -72,6 +81,7 @@ export class workspace_signal
         id: {
           type: DataTypes.UUID,
           allowNull: false,
+          defaultValue: DataTypes.UUIDV4,
           primaryKey: true,
         },
         label: {
@@ -93,14 +103,20 @@ export class workspace_signal
         updated_by: {
           type: DataTypes.UUID,
           allowNull: true,
+          references: {
+            model: "user_profiles",
+            key: "id",
+          },
         },
         created_at: {
           type: DataTypes.DATE,
           allowNull: true,
+          defaultValue: Sequelize.Sequelize.literal("CURRENT_TIMESTAMP"),
         },
         updated_at: {
           type: DataTypes.DATE,
           allowNull: true,
+          defaultValue: Sequelize.Sequelize.literal("CURRENT_TIMESTAMP"),
         },
       },
       {

@@ -1,7 +1,10 @@
 import * as Sequelize from "sequelize";
 import { DataTypes, Model, Optional } from "sequelize";
-import type { feedback_type, feedback_typeId } from "./feedback_type";
 import type { feedback, feedbackId } from "./feedback";
+import type {
+  master_feedback_type,
+  master_feedback_typeId,
+} from "./master_feedback_type";
 import type { user_profile, user_profileId } from "./user_profile";
 import type {
   user_role_mapping,
@@ -38,6 +41,7 @@ export interface workspaceAttributes {
 export type workspacePk = "id";
 export type workspaceId = workspace[workspacePk];
 export type workspaceOptionalAttributes =
+  | "id"
   | "name"
   | "logo"
   | "feedback_type"
@@ -63,14 +67,14 @@ export class workspace
   created_at?: Date;
   updated_at?: Date;
 
-  // workspace belongsTo feedback_type via feedback_type
-  feedback_type_feedback_type!: feedback_type;
-  getFeedback_type_feedback_type!: Sequelize.BelongsToGetAssociationMixin<feedback_type>;
-  setFeedback_type_feedback_type!: Sequelize.BelongsToSetAssociationMixin<
-    feedback_type,
-    feedback_typeId
+  // workspace belongsTo master_feedback_type via feedback_type
+  feedback_type_master_feedback_type!: master_feedback_type;
+  getFeedback_type_master_feedback_type!: Sequelize.BelongsToGetAssociationMixin<master_feedback_type>;
+  setFeedback_type_master_feedback_type!: Sequelize.BelongsToSetAssociationMixin<
+    master_feedback_type,
+    master_feedback_typeId
   >;
-  createFeedback_type_feedback_type!: Sequelize.BelongsToCreateAssociationMixin<feedback_type>;
+  createFeedback_type_master_feedback_type!: Sequelize.BelongsToCreateAssociationMixin<master_feedback_type>;
   // workspace belongsTo user_profile via created_by
   created_by_user_profile!: user_profile;
   getCreated_by_user_profile!: Sequelize.BelongsToGetAssociationMixin<user_profile>;
@@ -310,6 +314,7 @@ export class workspace
         id: {
           type: DataTypes.UUID,
           allowNull: false,
+          defaultValue: DataTypes.UUIDV4,
           primaryKey: true,
         },
         name: {
@@ -324,7 +329,7 @@ export class workspace
           type: DataTypes.INTEGER,
           allowNull: true,
           references: {
-            model: "feedback_types",
+            model: "master_feedback_types",
             key: "id",
           },
         },
@@ -347,10 +352,12 @@ export class workspace
         created_at: {
           type: DataTypes.DATE,
           allowNull: true,
+          defaultValue: Sequelize.Sequelize.literal("CURRENT_TIMESTAMP"),
         },
         updated_at: {
           type: DataTypes.DATE,
           allowNull: true,
+          defaultValue: Sequelize.Sequelize.literal("CURRENT_TIMESTAMP"),
         },
       },
       {

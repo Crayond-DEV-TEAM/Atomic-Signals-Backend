@@ -19,6 +19,7 @@ export interface notificationAttributes {
 export type notificationPk = "id";
 export type notificationId = notification[notificationPk];
 export type notificationOptionalAttributes =
+  | "id"
   | "reminder_id"
   | "type"
   | "created_by"
@@ -73,6 +74,7 @@ export class notification
         id: {
           type: DataTypes.UUID,
           allowNull: false,
+          defaultValue: DataTypes.UUIDV4,
           primaryKey: true,
         },
         reminder_id: {
@@ -106,10 +108,12 @@ export class notification
         created_at: {
           type: DataTypes.DATE,
           allowNull: true,
+          defaultValue: Sequelize.Sequelize.literal("CURRENT_TIMESTAMP"),
         },
         updated_at: {
           type: DataTypes.DATE,
           allowNull: true,
+          defaultValue: Sequelize.Sequelize.literal("CURRENT_TIMESTAMP"),
         },
       },
       {

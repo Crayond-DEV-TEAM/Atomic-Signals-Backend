@@ -18,6 +18,7 @@ export interface feedback_reminderAttributes {
 export type feedback_reminderPk = "id";
 export type feedback_reminderId = feedback_reminder[feedback_reminderPk];
 export type feedback_reminderOptionalAttributes =
+  | "id"
   | "from"
   | "to"
   | "remind_by"
@@ -120,6 +121,7 @@ export class feedback_reminder
         id: {
           type: DataTypes.UUID,
           allowNull: false,
+          defaultValue: DataTypes.UUIDV4,
           primaryKey: true,
         },
         from: {
@@ -165,10 +167,12 @@ export class feedback_reminder
         created_at: {
           type: DataTypes.DATE,
           allowNull: true,
+          defaultValue: Sequelize.Sequelize.literal("CURRENT_TIMESTAMP"),
         },
         updated_at: {
           type: DataTypes.DATE,
           allowNull: true,
+          defaultValue: Sequelize.Sequelize.literal("CURRENT_TIMESTAMP"),
         },
       },
       {
