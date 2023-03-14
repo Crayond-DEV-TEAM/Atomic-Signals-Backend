@@ -7,3 +7,13 @@ export const getDepartmentSchema: object = {
     response: {},
   },
 };
+
+export const getDepartmentDetailsSchema: object = {
+  schema: {
+    tags: ["Master", "Department"],
+    querystring: {},
+    params: {},
+    headers: {},
+    response: {},
+  },
+};
