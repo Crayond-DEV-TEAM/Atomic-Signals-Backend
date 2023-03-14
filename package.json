@@ -8,7 +8,7 @@
 	},
 	"prisma": {
 		"schema": "./prisma/schema.prisma",
-		"seed":"npx ts-node ./prisma/seed.ts"
+		"seed": "npx ts-node ./prisma/seed.ts"
 	},
 	"scripts": {
 		"test": "npm run build:ts && tsc -p test/tsconfig.json && tap --ts \"test/**/*.test.ts\"",
@@ -41,12 +41,14 @@
 		"fastify-plugin": "^4.0.0",
 		"fastify-sequelize": "^1.0.4",
 		"pg": "^8.9.0",
-		"sequelize": "^6.29.0"
+		"sequelize": "^6.29.0",
+		"uuid": "^9.0.0"
 	},
 	"devDependencies": {
 		"@types/dotenv": "^8.2.0",
 		"@types/node": "^18.0.0",
 		"@types/tap": "^15.0.5",
+		"@types/uuid": "^9.0.1",
 		"concurrently": "^7.0.0",
 		"dotenv": "^16.0.3",
 		"fastify-tsconfig": "^1.0.1",

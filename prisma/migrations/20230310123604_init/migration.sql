@@ -28,7 +28,6 @@ CREATE TABLE "user_workspace_access" (
 
 CREATE TABLE "user_profiles" (
   "id" uuid PRIMARY KEY DEFAULT (gen_random_uuid()),
-  "workspace_id" uuid,
   "user_id" varchar,
   "profile_pic" varchar,
   "name" varchar,
@@ -67,7 +66,7 @@ CREATE TABLE "master_feedback_types" (
 );
 
 CREATE TABLE "user_role_mapping" (
-  "id" int PRIMARY KEY,
+  "id" uuid PRIMARY KEY DEFAULT (gen_random_uuid()),
   "workspace_id" uuid,
   "user_profile_id" uuid,
   "role_id" int,
@@ -189,8 +188,6 @@ ALTER TABLE "user_workspace_access" ADD FOREIGN KEY ("reporting_to") REFERENCES 
 ALTER TABLE "user_workspace_access" ADD FOREIGN KEY ("created_by") REFERENCES "user_profiles" ("id");
 
 ALTER TABLE "user_workspace_access" ADD FOREIGN KEY ("updated_by") REFERENCES "user_profiles" ("id");
-
-ALTER TABLE "user_profiles" ADD FOREIGN KEY ("workspace_id") REFERENCES "workspaces" ("id");
 
 ALTER TABLE "user_profiles" ADD FOREIGN KEY ("status") REFERENCES "master_user_statuses" ("id");
 

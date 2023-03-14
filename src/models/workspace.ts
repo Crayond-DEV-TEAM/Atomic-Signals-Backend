@@ -109,39 +109,6 @@ export class workspace
   hasFeedback!: Sequelize.HasManyHasAssociationMixin<feedback, feedbackId>;
   hasFeedbacks!: Sequelize.HasManyHasAssociationsMixin<feedback, feedbackId>;
   countFeedbacks!: Sequelize.HasManyCountAssociationsMixin;
-  // workspace hasMany user_profile via workspace_id
-  user_profiles!: user_profile[];
-  getUser_profiles!: Sequelize.HasManyGetAssociationsMixin<user_profile>;
-  setUser_profiles!: Sequelize.HasManySetAssociationsMixin<
-    user_profile,
-    user_profileId
-  >;
-  addUser_profile!: Sequelize.HasManyAddAssociationMixin<
-    user_profile,
-    user_profileId
-  >;
-  addUser_profiles!: Sequelize.HasManyAddAssociationsMixin<
-    user_profile,
-    user_profileId
-  >;
-  createUser_profile!: Sequelize.HasManyCreateAssociationMixin<user_profile>;
-  removeUser_profile!: Sequelize.HasManyRemoveAssociationMixin<
-    user_profile,
-    user_profileId
-  >;
-  removeUser_profiles!: Sequelize.HasManyRemoveAssociationsMixin<
-    user_profile,
-    user_profileId
-  >;
-  hasUser_profile!: Sequelize.HasManyHasAssociationMixin<
-    user_profile,
-    user_profileId
-  >;
-  hasUser_profiles!: Sequelize.HasManyHasAssociationsMixin<
-    user_profile,
-    user_profileId
-  >;
-  countUser_profiles!: Sequelize.HasManyCountAssociationsMixin;
   // workspace hasMany user_role_mapping via workspace_id
   user_role_mappings!: user_role_mapping[];
   getUser_role_mappings!: Sequelize.HasManyGetAssociationsMixin<user_role_mapping>;

@@ -106,7 +106,6 @@ model notification {
 
 model user_profiles {
   id                                                                      String                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  workspace_id                                                            String?                 @db.Uuid
   user_id                                                                 String?                 @db.VarChar
   profile_pic                                                             String?                 @db.VarChar
   name                                                                    String?                 @db.VarChar
@@ -132,7 +131,6 @@ model user_profiles {
   master_user_statuses                                                    master_user_statuses?   @relation(fields: [status], references: [id], onDelete: NoAction, onUpdate: NoAction)
   user_profiles_user_profiles_updated_byTouser_profiles                   user_profiles?          @relation("user_profiles_updated_byTouser_profiles", fields: [updated_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
   other_user_profiles_user_profiles_updated_byTouser_profiles             user_profiles[]         @relation("user_profiles_updated_byTouser_profiles")
-  workspaces_user_profiles_workspace_idToworkspaces                       workspaces?             @relation("user_profiles_workspace_idToworkspaces", fields: [workspace_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   user_role_mapping_user_role_mapping_created_byTouser_profiles           user_role_mapping[]     @relation("user_role_mapping_created_byTouser_profiles")
   user_role_mapping_user_role_mapping_updated_byTouser_profiles           user_role_mapping[]     @relation("user_role_mapping_updated_byTouser_profiles")
   user_role_mapping_user_role_mapping_user_profile_idTouser_profiles      user_role_mapping[]     @relation("user_role_mapping_user_profile_idTouser_profiles")
@@ -152,7 +150,7 @@ model user_profiles {
 }
 
 model user_role_mapping {
-  id                                                             Int            @id
+  id                                                             String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   workspace_id                                                   String?        @db.Uuid
   user_profile_id                                                String?        @db.Uuid
   role_id                                                        Int?
@@ -249,22 +247,21 @@ model workspace_signals {
 }
 
 model workspaces {
-  id                                                   String                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name                                                 String?                 @db.VarChar
-  logo                                                 String?                 @db.VarChar
-  feedback_type                                        Int?
-  created_by                                           String?                 @db.Uuid
-  updated_by                                           String?                 @db.Uuid
-  created_at                                           DateTime?               @default(now()) @db.Timestamp(6)
-  updated_at                                           DateTime?               @default(now()) @db.Timestamp(6)
-  feedbacks                                            feedbacks[]
-  user_profiles_user_profiles_workspace_idToworkspaces user_profiles[]         @relation("user_profiles_workspace_idToworkspaces")
-  user_role_mapping                                    user_role_mapping[]
-  user_workspace_access                                user_workspace_access[]
-  workspace_department                                 workspace_department[]
-  workspace_designation                                workspace_designation[]
-  workspace_grading                                    workspace_grading[]
-  user_profiles_workspaces_created_byTouser_profiles   user_profiles?          @relation("workspaces_created_byTouser_profiles", fields: [created_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  master_feedback_types                                master_feedback_types?  @relation(fields: [feedback_type], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  user_profiles_workspaces_updated_byTouser_profiles   user_profiles?          @relation("workspaces_updated_byTouser_profiles", fields: [updated_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  id                                                 String                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name                                               String?                 @db.VarChar
+  logo                                               String?                 @db.VarChar
+  feedback_type                                      Int?
+  created_by                                         String?                 @db.Uuid
+  updated_by                                         String?                 @db.Uuid
+  created_at                                         DateTime?               @default(now()) @db.Timestamp(6)
+  updated_at                                         DateTime?               @default(now()) @db.Timestamp(6)
+  feedbacks                                          feedbacks[]
+  user_role_mapping                                  user_role_mapping[]
+  user_workspace_access                              user_workspace_access[]
+  workspace_department                               workspace_department[]
+  workspace_designation                              workspace_designation[]
+  workspace_grading                                  workspace_grading[]
+  user_profiles_workspaces_created_byTouser_profiles user_profiles?          @relation("workspaces_created_byTouser_profiles", fields: [created_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  master_feedback_types                              master_feedback_types?  @relation(fields: [feedback_type], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user_profiles_workspaces_updated_byTouser_profiles user_profiles?          @relation("workspaces_updated_byTouser_profiles", fields: [updated_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }

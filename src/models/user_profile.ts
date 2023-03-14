@@ -39,7 +39,6 @@ import type { workspace, workspaceId } from "./workspace";
 
 export interface user_profileAttributes {
   id: string;
-  workspace_id?: string;
   user_id?: string;
   profile_pic?: string;
   name?: string;
@@ -54,7 +53,6 @@ export type user_profilePk = "id";
 export type user_profileId = user_profile[user_profilePk];
 export type user_profileOptionalAttributes =
   | "id"
-  | "workspace_id"
   | "user_id"
   | "profile_pic"
   | "name"
@@ -73,7 +71,6 @@ export class user_profile
   implements user_profileAttributes
 {
   id!: string;
-  workspace_id?: string;
   user_id?: string;
   profile_pic?: string;
   name?: string;
@@ -930,38 +927,23 @@ export class user_profile
   >;
   countUpdated_by_workspace_signals!: Sequelize.HasManyCountAssociationsMixin;
   // user_profile hasMany workspace via created_by
-  created_by_workspaces!: workspace[];
-  getCreated_by_workspaces!: Sequelize.HasManyGetAssociationsMixin<workspace>;
-  setCreated_by_workspaces!: Sequelize.HasManySetAssociationsMixin<
+  workspaces!: workspace[];
+  getWorkspaces!: Sequelize.HasManyGetAssociationsMixin<workspace>;
+  setWorkspaces!: Sequelize.HasManySetAssociationsMixin<workspace, workspaceId>;
+  addWorkspace!: Sequelize.HasManyAddAssociationMixin<workspace, workspaceId>;
+  addWorkspaces!: Sequelize.HasManyAddAssociationsMixin<workspace, workspaceId>;
+  createWorkspace!: Sequelize.HasManyCreateAssociationMixin<workspace>;
+  removeWorkspace!: Sequelize.HasManyRemoveAssociationMixin<
     workspace,
     workspaceId
   >;
-  addCreated_by_workspace!: Sequelize.HasManyAddAssociationMixin<
+  removeWorkspaces!: Sequelize.HasManyRemoveAssociationsMixin<
     workspace,
     workspaceId
   >;
-  addCreated_by_workspaces!: Sequelize.HasManyAddAssociationsMixin<
-    workspace,
-    workspaceId
-  >;
-  createCreated_by_workspace!: Sequelize.HasManyCreateAssociationMixin<workspace>;
-  removeCreated_by_workspace!: Sequelize.HasManyRemoveAssociationMixin<
-    workspace,
-    workspaceId
-  >;
-  removeCreated_by_workspaces!: Sequelize.HasManyRemoveAssociationsMixin<
-    workspace,
-    workspaceId
-  >;
-  hasCreated_by_workspace!: Sequelize.HasManyHasAssociationMixin<
-    workspace,
-    workspaceId
-  >;
-  hasCreated_by_workspaces!: Sequelize.HasManyHasAssociationsMixin<
-    workspace,
-    workspaceId
-  >;
-  countCreated_by_workspaces!: Sequelize.HasManyCountAssociationsMixin;
+  hasWorkspace!: Sequelize.HasManyHasAssociationMixin<workspace, workspaceId>;
+  hasWorkspaces!: Sequelize.HasManyHasAssociationsMixin<workspace, workspaceId>;
+  countWorkspaces!: Sequelize.HasManyCountAssociationsMixin;
   // user_profile hasMany workspace via updated_by
   updated_by_workspaces!: workspace[];
   getUpdated_by_workspaces!: Sequelize.HasManyGetAssociationsMixin<workspace>;
@@ -995,11 +977,6 @@ export class user_profile
     workspaceId
   >;
   countUpdated_by_workspaces!: Sequelize.HasManyCountAssociationsMixin;
-  // user_profile belongsTo workspace via workspace_id
-  workspace!: workspace;
-  getWorkspace!: Sequelize.BelongsToGetAssociationMixin<workspace>;
-  setWorkspace!: Sequelize.BelongsToSetAssociationMixin<workspace, workspaceId>;
-  createWorkspace!: Sequelize.BelongsToCreateAssociationMixin<workspace>;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof user_profile {
     return user_profile.init(
@@ -1009,14 +986,6 @@ export class user_profile
           allowNull: false,
           defaultValue: DataTypes.UUIDV4,
           primaryKey: true,
-        },
-        workspace_id: {
-          type: DataTypes.UUID,
-          allowNull: true,
-          references: {
-            model: "workspaces",
-            key: "id",
-          },
         },
         user_id: {
           type: DataTypes.STRING,

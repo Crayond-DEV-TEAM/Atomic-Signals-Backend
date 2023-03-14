@@ -5,7 +5,7 @@ import type { user_profile, user_profileId } from "./user_profile";
 import type { workspace, workspaceId } from "./workspace";
 
 export interface user_role_mappingAttributes {
-  id: number;
+  id: string;
   workspace_id?: string;
   user_profile_id?: string;
   role_id?: number;
@@ -18,6 +18,7 @@ export interface user_role_mappingAttributes {
 export type user_role_mappingPk = "id";
 export type user_role_mappingId = user_role_mapping[user_role_mappingPk];
 export type user_role_mappingOptionalAttributes =
+  | "id"
   | "workspace_id"
   | "user_profile_id"
   | "role_id"
@@ -37,7 +38,7 @@ export class user_role_mapping
   >
   implements user_role_mappingAttributes
 {
-  id!: number;
+  id!: string;
   workspace_id?: string;
   user_profile_id?: string;
   role_id?: number;
@@ -85,8 +86,9 @@ export class user_role_mapping
     return user_role_mapping.init(
       {
         id: {
-          type: DataTypes.INTEGER,
+          type: DataTypes.UUID,
           allowNull: false,
+          defaultValue: DataTypes.UUIDV4,
           primaryKey: true,
         },
         workspace_id: {

@@ -410,7 +410,7 @@ export function initModels(sequelize: Sequelize) {
     foreignKey: "created_by",
   });
   user_profile.hasMany(workspace, {
-    as: "created_by_workspaces",
+    as: "workspaces",
     foreignKey: "created_by",
   });
   workspace.belongsTo(user_profile, {
@@ -455,14 +455,6 @@ export function initModels(sequelize: Sequelize) {
     foreignKey: "workspace_id",
   });
   workspace.hasMany(feedback, { as: "feedbacks", foreignKey: "workspace_id" });
-  user_profile.belongsTo(workspace, {
-    as: "workspace",
-    foreignKey: "workspace_id",
-  });
-  workspace.hasMany(user_profile, {
-    as: "user_profiles",
-    foreignKey: "workspace_id",
-  });
   user_role_mapping.belongsTo(workspace, {
     as: "workspace",
     foreignKey: "workspace_id",
